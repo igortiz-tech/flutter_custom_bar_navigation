@@ -1,9 +1,35 @@
 import 'package:custom_bar_footter/customShape.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'splash_page.dart';
+import 'modules/auth/auth_modules.dart';
+import 'modules/profile/profile_modules.dart';
 
 void main() {
-  runApp(const MyApp());
+  Modular.to.addListener(() {
+    print(Modular.to.path);
+  });
+  runApp(ModularApp(module: AppModule(), child: AppWidget()));
+}
+
+class AppWidget extends StatelessWidget {
+  Widget build(BuildContext context){
+    return MaterialApp.router(
+      title: 'My Smart App',
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+    ); //added by extension
+  }
+}
+
+class AppModule extends Module {
+  @override  List<Bind> get binds => [];
+  @override  List<ModularRoute> get routes => [
+    ChildRoute('/', child: (context, args) => SplashPage()),
+    ModuleRoute('/auth', module: AuthModule()),
+    ModuleRoute('/profile', module: ProfileModule())
+  ];
 }
 
 class MyApp extends StatelessWidget {
@@ -57,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           flexibleSpace: ClipPath(
             clipper: CustomShape(),
             child: Container(
-              color: Colors.purpleAccent,
+              color: Colors.red,
               child: Center(
                 child:
                 Text("My App"),
@@ -95,25 +121,13 @@ class _MyHomePageState extends State<MyHomePage> {
 class BNBCustomPainter extends CustomPainter{
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = Colors.purpleAccent..style = PaintingStyle.fill;
+    Paint paint = Paint()..color = Colors.red..style = PaintingStyle.fill;
     Path path = Path();//..moveTo(0, 20);
-
-
-    //path.quadraticBezierTo(size.width * .20, 0, size.width * .35, 0);
-    // path.quadraticBezierTo(size.width * .40, 0, size.width * .40, 20);
-
-    // path.arcToPoint(Offset(size.width * .60, 20),
-    //     radius: Radius.circular(10.0), clockwise: false);
-
-    // path.quadraticBezierTo(size.width * .60, -30, size.width * .65, -10);
     path.quadraticBezierTo(size.width/2, -(size.height - 50), size.width , 0);
-
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();
-
     canvas.drawShadow(path, Colors.black, 5, true);
-
     canvas.drawPath(path, paint);
 
   }
