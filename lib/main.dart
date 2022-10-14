@@ -2,9 +2,9 @@ import 'package:custom_bar_footter/customShape.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'splash_page.dart';
-import 'modules/auth/auth_modules.dart';
-import 'modules/profile/profile_modules.dart';
+
+
+import 'app_module.dart';
 
 void main() {
   Modular.to.addListener(() {
@@ -23,14 +23,6 @@ class AppWidget extends StatelessWidget {
   }
 }
 
-class AppModule extends Module {
-  @override  List<Bind> get binds => [];
-  @override  List<ModularRoute> get routes => [
-    ChildRoute('/', child: (context, args) => SplashPage()),
-    ModuleRoute('/auth', module: AuthModule()),
-    ModuleRoute('/profile', module: ProfileModule())
-  ];
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -9,7 +9,7 @@ class AuthModule extends Module {
   @override
   List<Bind> get binds => [
     Bind.factory((i) => LoginRepository()),
-    BlocBind.singleton((i) => LoginBloc(i()))
+    BlocBind.singleton((i) => LoginBloc(i(),i()))
   ];
 
   @override
